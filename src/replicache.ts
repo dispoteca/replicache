@@ -545,10 +545,10 @@ export class Replicache<MD extends MutatorDefs = {}> {
     if (this._broadcastChannel) {
       const data = {root, changedKeys, index};
       this._broadcastChannel.postMessage(data);
-    } else {
+    } else if (typeof win.localStorage !== 'undefined') {
       // local storage needs a string...
       const data = {root, changedKeys: [...changedKeys.entries()], index};
-      localStorage[storageKeyName(this.name)] = JSON.stringify(data);
+      win.localStorage[storageKeyName(this.name)] = JSON.stringify(data);
     }
   }
 
