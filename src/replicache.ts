@@ -44,6 +44,7 @@ import {
 import {Lock} from './rw-lock';
 import * as persist from './persist/mod';
 import {requestIdle} from './request-idle';
+import {win} from './win';
 
 export type BeginPullResult = {
   requestID: string;
@@ -402,7 +403,7 @@ export class Replicache<MD extends MutatorDefs = {}> {
       this._broadcastChannel.onmessage = (e: MessageEvent<BroadcastData>) =>
         this._onBroadcastMessage(e.data);
     } else {
-      window.addEventListener('storage', this._onStorage);
+      win.addEventListener('storage', this._onStorage);
     }
     this._root = this._getRoot();
     await this._root;
@@ -471,7 +472,7 @@ export class Replicache<MD extends MutatorDefs = {}> {
       this._broadcastChannel.close();
       this._broadcastChannel = undefined;
     } else {
-      window.removeEventListener('storage', this._onStorage);
+      win.removeEventListener('storage', this._onStorage);
     }
 
     // Clear subscriptions

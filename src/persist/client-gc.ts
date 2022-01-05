@@ -1,5 +1,6 @@
 import type {ClientID} from '../sync/client-id';
 import type * as dag from '../dag/mod';
+import {win} from '../win';
 import {ClientMap, noUpdates, updateClients} from './clients';
 
 const CLIENT_MAX_INACTIVE_IN_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
@@ -14,7 +15,7 @@ export function initClientGC(
   clientID: ClientID,
   dagStore: dag.Store,
 ): () => void {
-  const intervalID = window.setInterval(() => {
+  const intervalID = win.setInterval(() => {
     latestGCUpdate = updateClients(clients => {
       const now = Date.now();
       const clientsAfterGC = Array.from(clients).filter(
@@ -31,6 +32,6 @@ export function initClientGC(
     }, dagStore);
   }, GC_INTERVAL_MS);
   return () => {
-    window.clearInterval(intervalID);
+    win.clearInterval(intervalID);
   };
 }

@@ -1,5 +1,6 @@
 import type {ClientID} from '../sync/client-id';
 import type * as dag from '../dag/mod';
+import {win} from '../win';
 import {ClientMap, noUpdates, updateClients} from './clients';
 
 const HEARTBEAT_INTERVAL_MS = 60 * 1000;
@@ -13,11 +14,11 @@ export function startHeartbeats(
   clientID: ClientID,
   dagStore: dag.Store,
 ): () => void {
-  const intervalID = window.setInterval(() => {
+  const intervalID = win.setInterval(() => {
     latestHeartbeatUpdate = writeHeartbeat(clientID, dagStore);
   }, HEARTBEAT_INTERVAL_MS);
   return () => {
-    window.clearInterval(intervalID);
+    win.clearInterval(intervalID);
   };
 }
 
