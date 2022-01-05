@@ -17,7 +17,7 @@ teardown(async () => {
 //   at async o.<anonymous> (src/worker.test.ts:17:17)
 //
 // Example failure: https://github.com/rocicorp/replicache/runs/3519251318
-test.skip('worker test', async () => {
+test('worker test', async () => {
   const url = new URL('./worker-test.ts', import.meta.url);
   const w = new Worker(url, {type: 'module'});
   const name = 'worker-test';
