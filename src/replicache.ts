@@ -35,6 +35,7 @@ import * as db from './db/mod';
 import * as sync from './sync/mod';
 import {emptyHash, Hash, initHasher} from './hash';
 import {migrate} from './migrate/migrate';
+import {win} from './win';
 
 export type BeginPullResult = {
   requestID: string;
@@ -348,7 +349,7 @@ export class Replicache<MD extends MutatorDefs = {}> {
       this._broadcastChannel.onmessage = (e: MessageEvent<BroadcastData>) =>
         this._onBroadcastMessage(e.data);
     } else {
-      window.addEventListener('storage', this._onStorage);
+      win.addEventListener('storage', this._onStorage);
     }
     this._root = this._getRoot();
     await this._root;
@@ -413,7 +414,7 @@ export class Replicache<MD extends MutatorDefs = {}> {
       this._broadcastChannel.close();
       this._broadcastChannel = undefined;
     } else {
-      window.removeEventListener('storage', this._onStorage);
+      win.removeEventListener('storage', this._onStorage);
     }
 
     // Clear subscriptions
